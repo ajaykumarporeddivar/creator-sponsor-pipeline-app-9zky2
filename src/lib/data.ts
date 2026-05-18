@@ -1,0 +1,436 @@
+import {
+  SponsorContact,
+  SponsorDeal,
+  Deliverable,
+  DemoUser,
+  ActivityType,
+} from './types';
+
+// Helper to generate a random UUID-like string
+const generateId = (): string => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+// Helper to generate a date within the last year
+const getDateInLastYear = (offsetDays: number = 0): string => {
+  const d = new Date();
+  d.setDate(d.getDate() - Math.floor(Math.random() * 365) - offsetDays);
+  return d.toISOString();
+};
+
+// Helper to generate a future date
+const getFutureDate = (offsetDays: number = 0): string => {
+  const d = new Date();
+  d.setDate(d.getDate() + Math.floor(Math.random() * 90) + offsetDays); // Up to 90 days in future
+  return d.toISOString();
+};
+
+export const DEMO_USER: DemoUser = {
+  id: 'user-alex-chen',
+  name: 'Alex Chen',
+  email: 'alex.chen@example.com',
+  role: 'Independent Creator',
+  plan: 'Pro Creator',
+  avatar: 'AC',
+  joinedAt: '2023-08-15T10:00:00Z',
+};
+
+export const MOCK_SPONSOR_CONTACTS: SponsorContact[] = [
+  {
+    id: 'contact-101',
+    name: 'Sarah Thompson',
+    email: 'sarah.thompson@brandx.com',
+    company: 'BrandX Innovations',
+    phone: '+15551234567',
+    notes: 'Primary contact for BrandX. Responds well to video pitch decks.',
+    status: 'Active',
+    createdAt: getDateInLastYear(120),
+    updatedAt: getDateInLastYear(5),
+  },
+  {
+    id: 'contact-102',
+    name: 'Marcus Webb',
+    email: 'marcus.webb@gamersedge.co',
+    company: 'GamersEdge Accessories',
+    phone: '+15559876543',
+    notes: 'Interested in long-term partnerships for gaming content.',
+    status: 'Active',
+    createdAt: getDateInLastYear(90),
+    updatedAt: getDateInLastYear(10),
+  },
+  {
+    id: 'contact-103',
+    name: 'Emily Davis',
+    email: 'emily.davis@healthglow.org',
+    company: 'HealthGlow Supplements',
+    phone: '+15552345678',
+    notes: 'Focus on health and wellness influencers. Specific demographic targets.',
+    status: 'Active',
+    createdAt: getDateInLastYear(180),
+    updatedAt: getDateInLastYear(30),
+  },
+  {
+    id: 'contact-104',
+    name: 'David Lee',
+    email: 'david.lee@techsolutions.com',
+    company: 'Tech Solutions Inc.',
+    notes: 'Potential for software review sponsorships. Slow response times sometimes.',
+    status: 'Active',
+    createdAt: getDateInLastYear(60),
+    updatedAt: getDateInLastYear(2),
+  },
+  {
+    id: 'contact-105',
+    name: 'Olivia Martin',
+    email: 'olivia.m@fashionflow.net',
+    company: 'FashionFlow Apparel',
+    phone: '+15558765432',
+    notes: 'Targeting fashion and lifestyle creators. Open to creative concepts.',
+    status: 'Active',
+    createdAt: getDateInLastYear(210),
+    updatedAt: getDateInLastYear(45),
+  },
+  {
+    id: 'contact-106',
+    name: 'Liam Green',
+    email: 'liam.g@wanderlusttravel.com',
+    company: 'Wanderlust Travel',
+    notes: 'Travel industry contact. Seeking creators for destination reviews.',
+    status: 'Active',
+    createdAt: getDateInLastYear(240),
+    updatedAt: getDateInLastYear(60),
+  },
+  {
+    id: 'contact-107',
+    name: 'Chloe Wilson',
+    email: 'chloe.w@ecoliving.co',
+    company: 'EcoLiving Products',
+    notes: 'Sustainable and eco-friendly brands. Strong ethical alignment is a must.',
+    status: 'Active',
+    createdAt: getDateInLastYear(300),
+    updatedAt: getDateInLastYear(75),
+  },
+  {
+    id: 'contact-108',
+    name: 'Noah Brown',
+    email: 'noah.b@homecomfort.net',
+    company: 'HomeComfort Solutions',
+    phone: '+15553456789',
+    notes: 'Home improvement and smart home tech. Long sales cycle.',
+    status: 'Active',
+    createdAt: getDateInLastYear(15),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'contact-109',
+    name: 'Sophia Miller',
+    email: 'sophia.m@artisancreations.com',
+    company: 'Artisan Creations',
+    notes: 'Crafts and DIY niche. Requires hands-on product demonstration.',
+    status: 'Archived',
+    createdAt: getDateInLastYear(330),
+    updatedAt: getDateInLastYear(90),
+  },
+  {
+    id: 'contact-110',
+    name: 'Ethan Jones',
+    email: 'ethan.j@fureverfriends.org',
+    company: 'Furever Friends Pet Food',
+    notes: 'Pet-related content. Seeks creators with pets.',
+    status: 'Active',
+    createdAt: getDateInLastYear(20),
+    updatedAt: getDateInLastYear(3),
+  },
+];
+
+export const MOCK_SPONSOR_DEALS: SponsorDeal[] = [
+  {
+    id: 'deal-201',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[0].id,
+    name: 'BrandX Innovations Q3 Campaign',
+    value: 5500.00,
+    dueDate: getFutureDate(30),
+    status: 'In Progress',
+    notes: 'High priority, seeking 2 YouTube videos and 3 Instagram posts.',
+    createdAt: getDateInLastYear(45),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'deal-202',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[1].id,
+    name: 'GamersEdge New Headset Launch',
+    value: 7200.00,
+    dueDate: getFutureDate(15),
+    status: 'Approved',
+    notes: 'Product samples shipped. Focus on unboxing and review.',
+    createdAt: getDateInLastYear(60),
+    updatedAt: getDateInLastYear(3),
+  },
+  {
+    id: 'deal-203',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[2].id,
+    name: 'HealthGlow Summer Fitness Series',
+    value: 3800.00,
+    dueDate: getFutureDate(60),
+    status: 'Negotiating',
+    notes: 'Awaiting revised terms. They want exclusivity for 3 months.',
+    createdAt: getDateInLastYear(90),
+    updatedAt: getDateInLastYear(7),
+  },
+  {
+    id: 'deal-204',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[3].id,
+    name: 'Tech Solutions Software Review',
+    value: 2900.00,
+    dueDate: getFutureDate(45),
+    status: 'Pitched',
+    notes: 'Sent initial pitch deck for their new productivity app.',
+    createdAt: getDateInLastYear(15),
+    updatedAt: getDateInLastYear(2),
+  },
+  {
+    id: 'deal-205',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[4].id,
+    name: 'FashionFlow Spring Collection Spotlight',
+    value: 4100.00,
+    dueDate: getFutureDate(20),
+    status: 'Delivered',
+    notes: 'All content delivered and live. Awaiting performance report.',
+    createdAt: getDateInLastYear(120),
+    updatedAt: getDateInLastYear(10),
+  },
+  {
+    id: 'deal-206',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[5].id,
+    name: 'Wanderlust Travel Adventure Blog Post',
+    value: 1800.00,
+    dueDate: getFutureDate(90),
+    status: 'Lead',
+    notes: 'Initial outreach for their new eco-tourism initiative.',
+    createdAt: getDateInLastYear(5),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'deal-207',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[6].id,
+    name: 'EcoLiving Sustainable Home Product Showcase',
+    value: 3200.00,
+    dueDate: getFutureDate(25),
+    status: 'In Progress',
+    notes: 'Filming schedule confirmed for next week. Products received.',
+    createdAt: getDateInLastYear(30),
+    updatedAt: getDateInLastYear(4),
+  },
+  {
+    id: 'deal-208',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[7].id,
+    name: 'HomeComfort Smart Thermostat Review',
+    value: 4900.00,
+    dueDate: getFutureDate(7),
+    status: 'Approved',
+    notes: 'Final script approved. Due for upload in 3 days.',
+    createdAt: getDateInLastYear(70),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'deal-209',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[9].id, // Note: contact-109 is Archived
+    name: 'Furever Friends New Line Launch',
+    value: 6000.00,
+    dueDate: getFutureDate(50),
+    status: 'Approved',
+    notes: 'Long-term partnership discussed. 4 videos over 6 months.',
+    createdAt: getDateInLastYear(25),
+    updatedAt: getDateInLastYear(2),
+  },
+  {
+    id: 'deal-210',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[0].id,
+    name: 'BrandX Holiday Gift Guide',
+    value: 4000.00,
+    dueDate: getFutureDate(120),
+    status: 'Lead',
+    notes: 'Follow up after Q3 campaign is completed.',
+    createdAt: getDateInLastYear(1),
+    updatedAt: getDateInLastYear(0),
+  },
+  {
+    id: 'deal-211',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[1].id,
+    name: 'GamersEdge Pro Controller Promo',
+    value: 3500.00,
+    dueDate: getFutureDate(40),
+    status: 'Negotiating',
+    notes: 'Client wants to bundle with another creator. Responding with counter-offer.',
+    createdAt: getDateInLastYear(80),
+    updatedAt: getDateInLastYear(6),
+  },
+  {
+    id: 'deal-212',
+    sponsorContactId: MOCK_SPONSOR_CONTACTS[2].id,
+    name: 'HealthGlow Winter Wellness Tips',
+    value: 2800.00,
+    dueDate: getFutureDate(100),
+    status: 'Pitched',
+    notes: 'Pitched a series of short-form videos for TikTok and Instagram Reels.',
+    createdAt: getDateInLastYear(10),
+    updatedAt: getDateInLastYear(2),
+  },
+];
+
+export const MOCK_DELIVERABLES: Deliverable[] = [
+  {
+    id: 'dlv-301',
+    dealId: MOCK_SPONSOR_DEALS[0].id,
+    type: 'YouTube Video',
+    description: 'Main product review video for BrandX Q3.',
+    dueDate: getFutureDate(10),
+    status: 'In Progress',
+    link: 'https://drafts.example.com/brandx-video-v1',
+    approvalStatus: 'Pending Sponsor Review',
+    createdAt: getDateInLastYear(30),
+    updatedAt: getDateInLastYear(2),
+  },
+  {
+    id: 'dlv-302',
+    dealId: MOCK_SPONSOR_DEALS[0].id,
+    type: 'Instagram Post',
+    description: 'Carousel post featuring BrandX product in daily use.',
+    dueDate: getFutureDate(15),
+    status: 'Ready for Review',
+    link: 'https://drafts.example.com/brandx-insta-v1',
+    approvalStatus: 'Pending Sponsor Review',
+    createdAt: getDateInLastYear(28),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'dlv-303',
+    dealId: MOCK_SPONSOR_DEALS[1].id,
+    type: 'YouTube Unboxing',
+    description: 'Unboxing and first impressions of GamersEdge headset.',
+    dueDate: getFutureDate(5),
+    status: 'Ready for Review',
+    link: 'https://drafts.example.com/gamersedge-unboxing-v2',
+    approvalStatus: 'Changes Requested by Sponsor',
+    createdAt: getDateInLastYear(40),
+    updatedAt: getDateInLastYear(0),
+  },
+  {
+    id: 'dlv-304',
+    dealId: MOCK_SPONSOR_DEALS[1].id,
+    type: 'Twitch Stream Integration',
+    description: 'Dedicated 1-hour segment during live stream for GamersEdge.',
+    dueDate: getFutureDate(10),
+    status: 'Planned',
+    approvalStatus: 'Approved by Sponsor',
+    createdAt: getDateInLastYear(35),
+    updatedAt: getDateInLastYear(5),
+  },
+  {
+    id: 'dlv-305',
+    dealId: MOCK_SPONSOR_DEALS[4].id,
+    type: 'TikTok Short',
+    description: 'Quick fashion reel for FashionFlow Spring Collection.',
+    dueDate: getDateInLastYear(-5), // Past due
+    status: 'Completed',
+    link: 'https://tiktok.com/@creator/fashionflow-spring',
+    approvalStatus: 'Approved by Sponsor',
+    createdAt: getDateInLastYear(80),
+    updatedAt: getDateInLastYear(10),
+  },
+  {
+    id: 'dlv-306',
+    dealId: MOCK_SPONSOR_DEALS[6].id,
+    type: 'YouTube Video',
+    description: 'Review of EcoLiving smart home products.',
+    dueDate: getFutureDate(18),
+    status: 'In Progress',
+    approvalStatus: 'Pending Sponsor Review',
+    createdAt: getDateInLastYear(20),
+    updatedAt: getDateInLastYear(3),
+  },
+  {
+    id: 'dlv-307',
+    dealId: MOCK_SPONSOR_DEALS[7].id,
+    type: 'Blog Post',
+    description: 'Written review of HomeComfort smart thermostat.',
+    dueDate: getFutureDate(2),
+    status: 'Ready for Review',
+    link: 'https://drafts.example.com/homecomfort-blog-v1',
+    approvalStatus: 'Approved by Sponsor',
+    createdAt: getDateInLastYear(50),
+    updatedAt: getDateInLastYear(1),
+  },
+  {
+    id: 'dlv-308',
+    dealId: MOCK_SPONSOR_DEALS[8].id,
+    type: 'Instagram Story',
+    description: 'Quick unboxing and first impressions of Furever Friends treats.',
+    dueDate: getFutureDate(30),
+    status: 'Planned',
+    approvalStatus: 'Approved by Sponsor',
+    createdAt: getDateInLastYear(18),
+    updatedAt: getDateInLastYear(2),
+  },
+  {
+    id: 'dlv-309',
+    dealId: MOCK_SPONSOR_DEALS[0].id,
+    type: 'Blog Post',
+    description: 'Companion blog post for BrandX Q3 video campaign.',
+    dueDate: getFutureDate(20),
+    status: 'Planned',
+    approvalStatus: 'Pending Sponsor Review',
+    createdAt: getDateInLastYear(25),
+    updatedAt: getDateInLastYear(3),
+  },
+  {
+    id: 'dlv-310',
+    dealId: MOCK_SPONSOR_DEALS[7].id,
+    type: 'YouTube Short',
+    description: 'Short demo of HomeComfort thermostat features.',
+    dueDate: getFutureDate(5),
+    status: 'In Progress',
+    approvalStatus: 'Pending Sponsor Review',
+    createdAt: getDateInLastYear(48),
+    updatedAt: getDateInLastYear(1),
+  },
+];
+
+export const STATS = {
+  totalDealValue: '$78,300', // Sum of active/in progress/approved/delivered deals
+  totalDealValueGrowth: '+12.5%',
+  activeDeals: 8, // In Progress, Approved, Negotiating, Pitched
+  activeDealsGrowth: '+2',
+  pendingDeliverables: 6, // In Progress, Ready for Review, Revisions Needed
+  upcomingDueDates: 4, // Deliverables due in next 7 days
+};
+
+export const CHART_DATA = {
+  labels: ['Apr W1', 'Apr W2', 'Apr W3', 'Apr W4', 'May W1', 'May W2', 'May W3', 'May W4', 'Jun W1', 'Jun W2', 'Jun W3', 'Jun W4'],
+  newDeals: [4, 3, 5, 2, 6, 4, 3, 5, 7, 4, 6, 5],
+  revenue: [12500, 10200, 15800, 8900, 18200, 13500, 11000, 16500, 20300, 14800, 17200, 16000],
+};
+
+export const SPARKLINE_DATA = {
+  totalDealValue: [78, 82, 79, 91, 88, 94, 103], // In thousands
+  activeDeals: [14, 15, 13, 16, 17, 18, 18],
+  pendingDeliverables: [8, 7, 9, 10, 8, 7, 6],
+  upcomingDueDates: [3, 5, 4, 6, 5, 4, 4],
+};
+
+export const RECENT_ACTIVITY = [
+  { id: generateId(), action: 'Approved deliverable for GamersEdge', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '2 minutes ago', type: 'update' as ActivityType },
+  { id: generateId(), action: 'Updated status of BrandX Q3 to "In Progress"', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '15 minutes ago', type: 'update' as ActivityType },
+  { id: generateId(), action: 'Created new deal: Wanderlust Travel Adventure Blog Post', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '30 minutes ago', type: 'create' as ActivityType },
+  { id: generateId(), action: 'Received "Changes Requested" on GamersEdge Unboxing', user: MOCK_SPONSOR_CONTACTS[1].name, avatar: 'MW', time: '1 hour ago', type: 'action' as ActivityType },
+  { id: generateId(), action: 'Pitched new deal: Tech Solutions Software Review', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '2 hours ago', type: 'create' as ActivityType },
+  { id: generateId(), action: 'Created new contact: Noah Brown (HomeComfort)', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '3 hours ago', type: 'create' as ActivityType },
+  { id: generateId(), action: 'Deliverable due for HomeComfort Smart Thermostat Review', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '5 hours ago', type: 'alert' as ActivityType },
+  { id: generateId(), action: 'Deal status changed to "Delivered" for FashionFlow Spring Collection', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: 'Yesterday', type: 'update' as ActivityType },
+  { id: generateId(), action: 'Archived contact: Sophia Miller (Artisan Creations)', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '2 days ago', type: 'delete' as ActivityType },
+  { id: generateId(), action: 'Updated deal value for HealthGlow Summer Fitness Series', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '3 days ago', type: 'update' as ActivityType },
+  { id: generateId(), action: 'New deliverable added to EcoLiving product showcase', user: DEMO_USER.name, avatar: DEMO_USER.avatar, time: '4 days ago', type: 'create' as ActivityType },
+  { id: generateId(), action: 'Sponsor contact Sarah Thompson viewed pitch deck', user: MOCK_SPONSOR_CONTACTS[0].name, avatar: 'ST', time: '5 days ago', type: 'action' as ActivityType },
+];
+
+export function getById<T extends { id: string }>(arr: T[], id: string): T | undefined {
+  return arr.find(x => x.id === id);
+}
